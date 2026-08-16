@@ -10,8 +10,11 @@ ENV APT_MIRROR=cdn-fastly.deb.debian.org
 RUN sed -ri "s/(httpredir|deb).debian.org/${APT_MIRROR:-deb.debian.org}/g" /etc/apt/sources.list \
  && sed -ri "s/(security).debian.org/${APT_MIRROR:-security.debian.org}/g" /etc/apt/sources.list
 
-RUN apt-get update \
+RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor -o /usr/share/keyrings/google-chrome.gpg \
+  && echo "deb [arch=amd64 signed-by=/usr/share/keyrings/google-chrome.gpg] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list \
+  && apt-get update \
   && apt-get upgrade -y \
+  && apt-get install -y --no-install-recommends google-chrome-stable
   && apt-get install -y sudo libatomic1 \
       build-essential ca-certificates wget \
       gnupg git curl unzip \
