@@ -11,7 +11,7 @@ RUN sed -ri "s/(httpredir|deb).debian.org/${APT_MIRROR:-deb.debian.org}/g" /etc/
  && sed -ri "s/(security).debian.org/${APT_MIRROR:-security.debian.org}/g" /etc/apt/sources.list
 
 RUN apt-get update \
-  && apt-get ugprade -y \
+  && apt-get upgrade -y \
   && apt-get install -y sudo libatomic1 \
       build-essential ca-certificates wget \
       gnupg git curl unzip \
