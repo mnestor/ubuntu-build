@@ -14,10 +14,12 @@ RUN apt-get update \
   && apt-get upgrade -y \
   && apt-get install -y sudo libatomic1 \
       build-essential ca-certificates wget \
-      gnupg git curl unzip \
+      gnupg git curl unzip jq \
   && wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor -o /usr/share/keyrings/google-chrome.gpg \
   && echo "deb [arch=amd64 signed-by=/usr/share/keyrings/google-chrome.gpg] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list \
   && apt-get update \
   && apt-get install -y --no-install-recommends google-chrome-stable \
+  && curl -sL -o /tmp/quill.deb $(curl -s https://api.github.com/repos/anchore/quill/releases/latest | jq -r '.assets[] |select(.name|match("linux_amd64.deb$")) | .browser_download_url') \
+  && dpkg -i /tmp/quill.deb \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
