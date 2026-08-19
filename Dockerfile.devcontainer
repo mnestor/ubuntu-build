@@ -72,10 +72,10 @@ USER vscode
 # as vscode, avoids both.
 RUN mkdir -p \
   /home/vscode/.claude \
-  /home/vscode/.local \
+  /home/vscode/.local/bin\
+  /home/vscode/.local/share/rtk \
   /home/vscode/.config/gh \
   /home/vscode/.config/rtk \
-  /home/vscode/.cache/codebase-memory-mcp \
   && echo '{}' > /home/vscode/.claude.json
 
 RUN curl -sSfL https://golangci-lint.run/install.sh | sh -s -- -b $(go env GOPATH)/bin \
