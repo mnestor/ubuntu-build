@@ -79,6 +79,8 @@ RUN mkdir -p \
   && echo '{}' > /home/vscode/.claude.json
 
 RUN curl -sSfL https://golangci-lint.run/install.sh | sh -s -- -b $(go env GOPATH)/bin \
+  && curl -fsSL https://claude.ai/install.sh | bash \
+  && curl -fsSL https://raw.githubusercontent.com/DeusData/codebase-memory-mcp/main/install.sh | bash
   && go install github.com/princjef/gomarkdoc/cmd/gomarkdoc@latest \
   && go install github.com/caarlos0/svu/v3@latest \
   && go install golang.org/x/lint/golint@latest \
