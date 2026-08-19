@@ -7,6 +7,13 @@ on:
 jobs:
   push-store-image:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        image: 
+          - type: runner
+            name: ubuntu-build
+          - type: devcontainer
+            name: ubuntu-build-devcontainer
     steps:
       - name: 'Checkout GitHub Action'
         uses: actions/checkout@main
@@ -19,6 +26,9 @@ jobs:
           password: ${{secrets.GITHUB_TOKEN}}
 
       - name: 'Build Inventory Image'
+        env:
+          IMAGE: ${{ matrix.image.type }}
+          NAME: ${{ matrix.image.name }}
         run: |
-          docker build . --tag ghcr.io/mnestor/ubuntu-build:latest
-          docker push ghcr.io/mnestor/ubuntu-build:latest
+          docker build . -f Dockerfile.${IMAGE} --tag ghcr.io/mnestor/${NAME}:latest
+          docker push ghcr.io/mnestor/${NAME}:latest
