@@ -13,7 +13,7 @@
 # `apt-get update && apt-get upgrade` inside the running container
 # whenever you want them refreshed.
 
-FROM mcr.microsoft.com/devcontainers/go:2.1.6-1.26-bookworm
+FROM mcr.microsoft.com/devcontainers/go:dev-1.26-trixie
 ARG CREATED
 ARG COMMIT
 ARG VERSION=local
@@ -59,7 +59,9 @@ RUN install -d -m 0755 /etc/apt/keyrings \
   libpam0g-dev \
   nodejs \
   gh \
-  && rm -rf /var/lib/apt/lists/*
+  && gh release download  --repo anchore/quill -p '*amd64.deb' -O /tmp/quill.deb \ 
+  && dpkg -i /tmp/quill.deb \
+  && rm -rf /var/lib/apt/lists/* /tmp/quill.deb
   
 USER vscode
 
