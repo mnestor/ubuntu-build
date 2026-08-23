@@ -19,6 +19,10 @@ RUN echo "deb [trusted=yes] https://repo.goreleaser.com/apt/ /" > /etc/apt/sourc
   && curl -fsSL https://get.pnpm.io/install.sh | ENV="$HOME/.bashrc" SHELL="$(which bash)" bash - \
   && curl -sL https://go.dev/dl/go1.26.6.linux-amd64.tar.gz | tar -C /usr/local -xz \
   && /usr/local/go/bin/go install gotest.tools/gotestsum@v1.13.0 \
+  # GitHub mounts the workspace owned by the runner's uid while this
+  # container runs as root; without this every git call (and the Makefile's
+  # $(shell git ...) version stamps) dies with "dubious ownership".
+  && git config --system --add safe.directory '*' \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
