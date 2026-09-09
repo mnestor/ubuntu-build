@@ -13,7 +13,7 @@
 # `apt-get update && apt-get upgrade` inside the running container
 # whenever you want them refreshed.
 
-FROM mcr.microsoft.com/devcontainers/go:dev-1.26-trixie
+FROM mcr.microsoft.com/devcontainers/go:dev-1.27-trixie
 ARG CREATED
 ARG COMMIT
 ARG VERSION=local
